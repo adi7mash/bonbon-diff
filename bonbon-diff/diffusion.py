@@ -630,7 +630,7 @@ class Diffusion(L.LightningModule):
       new_attention_mask = attention_mask[:, start: end]
 
       # Helps with validation PPL, since the val
-      # examples will all start and end with BOS/EOS
+      # originals will all start and end with BOS/EOS
       input_tokens[:, 0] = self.tokenizer.bos_token_id
       output_tokens[:, -1] = self.tokenizer.eos_token_id
     elif self.parameterization == 'ar':

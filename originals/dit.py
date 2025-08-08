@@ -428,8 +428,6 @@ class DIT(nn.Module, huggingface_hub.PyTorchModelHubMixin):
       c = None
     else:
       c = F.silu(self.sigma_map(sigma))
-
-    # Adi: Support for conditioning, not implemented in DITClassifier
     if cond is not None:
       if self.cond_map is None:
         raise ValueError("Conditioning variable provided, "
@@ -439,8 +437,7 @@ class DIT(nn.Module, huggingface_hub.PyTorchModelHubMixin):
         if c is None:  # AR (self.causal is True)
           c = F.silu(self.cond_map(cond))
         else:
-          c = c + F.silu(self.cond_map(cond))  # Adi: concatenate the conditioning with the sigma, after both went
-                # through F.silu
+          c = c + F.silu(self.cond_map(cond))
 
     if x_emb is None:
       x = self.vocab_embed(indices)
